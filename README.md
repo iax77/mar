@@ -163,7 +163,7 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
                 } else if (userInput.includes("feliz") || userInput.includes("amor")) {
-                    document.body.style.backgroundColor = "#FF69B4";  // Cambiar fondo a rosa
+                    document.body.style.backgroundColor = "#006400";  // Cambiar fondo a verde royal
                     let heart = document.createElement("div");
                     heart.innerHTML = "❤️";
                     heart.style.fontSize = "100px";
