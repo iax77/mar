@@ -3,75 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal</title>
+    <title>GitHub Terminal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
 
         body {
-            background-color: #000;
-            color: #fff;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'JetBrains Mono', monospace;
             margin: 0;
             padding: 20px;
-            font-size: 14px;
-            line-height: 1.6;
-            text-align: center;
         }
 
         #terminal {
+            background-color: #161b22;
+            border-radius: 6px;
+            padding: 20px;
             max-width: 800px;
             margin: auto;
-            padding: 20px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
         .system-text {
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-        }
-
-        .fnaf-text {
-            font-family: 'Press Start 2P', cursive;
+            color: #8b949e;
             font-size: 14px;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .input-line {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .prompt {
-            font-family: 'Press Start 2P', cursive;
-            color: #fff;
-            margin-right: 10px;
+            color: #58a6ff;
         }
 
         .input-field {
             background: none;
             border: none;
-            color: #fff;
-            font-family: 'Press Start 2P', cursive;
+            color: #c9d1d9;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 14px;
             outline: none;
-            width: 300px;
+            width: 50px;
             text-transform: lowercase;
         }
 
         .blinking-cursor {
             display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: #fff;
+            width: 8px;
+            height: 16px;
+            background-color: #c9d1d9;
             animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
             50% { opacity: 0; }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -80,30 +66,21 @@
     <div id="terminal">
         <div id="intro" class="system-text"></div>
 
-        <div id="promptText" class="fnaf-text hidden">
-            Hi Mar, there's something special I want to share with you. <br>
-            Once you say 'yes,' there's no going back. <br>
-            Are you sure? (yes/no)
+        <div id="promptText" class="hidden">
+            <span class="prompt">mar@github:~$</span> Hi Mar, there's something special I want to share with you.<br>
+            <span class="prompt">mar@github:~$</span> Once you say 'yes,' there's no going back.<br>
+            <span class="prompt">mar@github:~$</span> Are you sure? 
+            <div class="input-line">
+                (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
+                <span class="blinking-cursor"></span>
+            </div>
         </div>
 
-        <div id="inputContainer" class="input-line hidden">
-            <span class="prompt">user@system:~$</span>
-            <input type="text" id="inputField" class="input-field" autofocus>
-            <span class="blinking-cursor"></span>
-        </div>
-
-        <div id="message" class="hidden fnaf-text"></div>
+        <div id="message" class="hidden"></div>
     </div>
 
     <script>
-        const introText = `Initializing system...
-Loading secure connection...
-Verifying identity...
-Access granted.\n\n`;
-
-        const promptText = `Hi Mar, there's something special I want to share with you.
-Once you say 'yes,' there's no going back.
-Are you sure? (yes/no)\n\n`;
+        const introText = `mar@github:~$ Initializing system...\nmar@github:~$ Loading secure connection...\nmar@github:~$ Verifying identity...\nmar@github:~$ Access granted.\n\n`;
 
         const messageText = `HOLA, MAR.
 
@@ -118,7 +95,7 @@ TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAG
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
 
-        function typeWriterEffect(element, text, speed = 50, callback = null) {
+        function typeWriterEffect(element, text, speed = 40, callback = null) {
             let i = 0;
             function type() {
                 if (i < text.length) {
@@ -136,7 +113,7 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
             if (event.key === "Enter") {
                 let userInput = document.getElementById("inputField").value.toLowerCase();
                 if (userInput === "yes") {
-                    document.getElementById("inputContainer").style.display = "none";
+                    document.getElementById("promptText").style.display = "none";
                     let messageDiv = document.getElementById("message");
                     messageDiv.classList.remove("hidden");
                     typeWriterEffect(messageDiv, messageText, 50);
@@ -148,13 +125,10 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
-        
+
         let introDiv = document.getElementById("intro");
         typeWriterEffect(introDiv, introText, 40, function() {
             document.getElementById("promptText").classList.remove("hidden");
-            typeWriterEffect(document.getElementById("promptText"), promptText, 40, function() {
-                document.getElementById("inputContainer").classList.remove("hidden");
-            });
         });
     </script>
 
