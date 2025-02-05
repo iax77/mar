@@ -80,7 +80,7 @@
 
         <div id="promptText" class="fnaf-text hidden">
             Hi Mar, there's something special I want to share with you. <br>
-            Once you say 'yes,' there's no going back. <br>
+            Just like the snap of Thanos, once you say 'yes,' there's no going back. <br>
             Are you sure? 
             <div class="input-line">
                 (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
@@ -98,7 +98,7 @@ Verifying identity...
 Access granted.\n\n`;
 
         const promptText = `Hi Mar, there's something special I want to share with you.
-Once you say 'yes,' there's no going back.
+Just like the snap of Thanos, once you say 'yes,' there's no going back.
 Are you sure? `;
 
         const messageText = `HOLA, MAR.
