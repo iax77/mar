@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -71,6 +71,19 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
+
+        .button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
@@ -80,12 +93,19 @@
 
         <div id="promptText" class="fnaf-text hidden">
             Hi Mar, there's something special I want to share with you. <br>
-            Just like the snap of Thanos, once you say 'yes,' there's no going back. <br>
+            Once you say 'yes,' there's no going back. <br>
             Are you sure? 
             <div class="input-line">
                 (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
                 <span class="blinking-cursor"></span>
             </div>
+        </div>
+
+        <div id="musicPrompt" class="hidden fnaf-text">
+            Antes de empezar, me gustaría que reproduzcas esto: <br>
+            <a href="https://open.spotify.com/track/3H9GcHKKJyZ9TEOLKlJ1U5?si=06pFZspsR_m7NuG9cXZ9ag" target="_blank">🎵 Escuchar canción 🎵</a>
+            <br><br>
+            <button class="button" onclick="startMessage()">Ya puse la canción</button>
         </div>
 
         <div id="message" class="hidden fnaf-text"></div>
@@ -96,10 +116,6 @@
 Loading secure connection...
 Verifying identity...
 Access granted.\n\n`;
-
-        const promptText = `Hi Mar, there's something special I want to share with you.
-Just like the snap of Thanos, once you say 'yes,' there's no going back.
-Are you sure? `;
 
         const messageText = `HOLA, MAR.
 
@@ -133,14 +149,19 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
                 let userInput = document.getElementById("inputField").value.toLowerCase();
                 if (userInput === "yes") {
                     document.getElementById("promptText").style.display = "none";
-                    let messageDiv = document.getElementById("message");
-                    messageDiv.classList.remove("hidden");
-                    typeWriterEffect(messageDiv, messageText, 50);
+                    document.getElementById("musicPrompt").classList.remove("hidden");
                 } else {
                     document.getElementById("inputField").value = "";
                     alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
                 }
             }
+        }
+
+        function startMessage() {
+            document.getElementById("musicPrompt").style.display = "none";
+            let messageDiv = document.getElementById("message");
+            messageDiv.classList.remove("hidden");
+            typeWriterEffect(messageDiv, messageText, 50);
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
