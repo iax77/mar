@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Press Start 2P', cursive;
             margin: 0;
             padding: 20px;
             font-size: 14px;
@@ -26,6 +25,16 @@
             word-wrap: break-word;
         }
 
+        .system-text {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+        }
+
+        .fnaf-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+        }
+
         .hidden {
             display: none;
         }
@@ -37,6 +46,7 @@
         }
 
         .prompt {
+            font-family: 'Press Start 2P', cursive;
             color: #fff;
             margin-right: 10px;
         }
@@ -68,26 +78,32 @@
 <body>
 
     <div id="terminal">
-        <div id="intro"></div>
+        <div id="intro" class="system-text"></div>
 
-        <div id="inputContainer" class="input-line">
+        <div id="promptText" class="fnaf-text hidden">
+            Hi Mar, there's something special I want to share with you. <br>
+            Once you say 'yes,' there's no going back. <br>
+            Are you sure? (yes/no)
+        </div>
+
+        <div id="inputContainer" class="input-line hidden">
             <span class="prompt">user@system:~$</span>
             <input type="text" id="inputField" class="input-field" autofocus>
             <span class="blinking-cursor"></span>
         </div>
 
-        <div id="message" class="hidden"></div>
+        <div id="message" class="hidden fnaf-text"></div>
     </div>
 
     <script>
         const introText = `Initializing system...
 Loading secure connection...
 Verifying identity...
-Access granted.
+Access granted.\n\n`;
 
-Hi Mar, there's something special I want to share with you. 
-Once you say 'yes,' there's no going back. Are you sure? (yes/no)
-`;
+        const promptText = `Hi Mar, there's something special I want to share with you.
+Once you say 'yes,' there's no going back.
+Are you sure? (yes/no)\n\n`;
 
         const messageText = `HOLA, MAR.
 
@@ -134,7 +150,12 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
         document.getElementById("inputField").addEventListener("keypress", checkInput);
         
         let introDiv = document.getElementById("intro");
-        typeWriterEffect(introDiv, introText, 40);
+        typeWriterEffect(introDiv, introText, 40, function() {
+            document.getElementById("promptText").classList.remove("hidden");
+            typeWriterEffect(document.getElementById("promptText"), promptText, 40, function() {
+                document.getElementById("inputContainer").classList.remove("hidden");
+            });
+        });
     </script>
 
 </body>
