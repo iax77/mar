@@ -56,7 +56,7 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 14px;
             outline: none;
-            width: 50px;
+            width: 80px;
             text-transform: lowercase;
         }
 
@@ -116,11 +116,6 @@
 
         <div id="message" class="hidden fnaf-text"></div>
 
-        <audio id="audioMessage" controls class="hidden">
-            <source src="tuMensajeDeVoz.mp3" type="audio/mp3">
-            Tu navegador no soporta el elemento de audio.
-        </audio>
-
     </div>
 
     <script>
@@ -142,9 +137,7 @@ TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAG
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
 
-PS: SI ESCRIBES AMOR EL FONDO CAMBIA A ROSA, YA SÉ QUE NO TE GUSTA EL ROSADO, PERO LA CANCIÓN SE LLAMA BACHATA ROSA Y TE LA DEDICO.
-
-
+PS: SI ESCRIBES "AMOR" O "FELIZ", EL FONDO CAMBIA A ROSA, YA SÉ QUE NO TE GUSTA EL ROSADO, PERO LA CANCIÓN SE LLAMA "BACHATA ROSA" Y TE LA DEDICO.
 
 PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
 
@@ -179,6 +172,7 @@ PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
                     heart.style.transform = "translate(-50%, -50%)";
                     heart.style.animation = "pulse 1.5s infinite";
                     document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000); // Elimina el corazón después de 3 segundos
                 } else {
                     document.getElementById("inputField").value = "";
                     alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
@@ -190,14 +184,7 @@ PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
             document.getElementById("musicPrompt").style.display = "none";
             let messageDiv = document.getElementById("message");
             messageDiv.classList.remove("hidden");
-            typeWriterEffect(messageDiv, messageText, 50, function() {
-                playAudioMessage();  // Reproducir mensaje de voz al final
-            });
-        }
-
-        function playAudioMessage() {
-            let audio = document.getElementById("audioMessage");
-            audio.play();
+            typeWriterEffect(messageDiv, messageText, 50);
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
