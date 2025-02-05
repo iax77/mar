@@ -3,41 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Terminal</title>
+    <title>Terminal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'JetBrains Mono', monospace;
+            background-color: #000;
+            color: #fff;
             margin: 0;
             padding: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: center;
         }
 
         #terminal {
-            background-color: #161b22;
-            border-radius: 6px;
-            padding: 20px;
             max-width: 800px;
             margin: auto;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .system-text {
-            color: #8b949e;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+        }
+
+        .fnaf-text {
+            font-family: 'Press Start 2P', cursive;
             font-size: 14px;
         }
 
+        .hidden {
+            display: none;
+        }
+
+        .input-line {
+            display: inline-block;
+        }
+
         .prompt {
-            color: #58a6ff;
+            font-family: 'Press Start 2P', cursive;
+            color: #fff;
+            margin-right: 5px;
         }
 
         .input-field {
             background: none;
             border: none;
-            color: #c9d1d9;
-            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
             font-size: 14px;
             outline: none;
             width: 50px;
@@ -46,18 +62,14 @@
 
         .blinking-cursor {
             display: inline-block;
-            width: 8px;
-            height: 16px;
-            background-color: #c9d1d9;
+            width: 10px;
+            height: 18px;
+            background-color: #fff;
             animation: blink 1s step-end infinite;
         }
 
         @keyframes blink {
             50% { opacity: 0; }
-        }
-
-        .hidden {
-            display: none;
         }
     </style>
 </head>
@@ -66,21 +78,28 @@
     <div id="terminal">
         <div id="intro" class="system-text"></div>
 
-        <div id="promptText" class="hidden">
-            <span class="prompt">mar@github:~$</span> Hi Mar, there's something special I want to share with you.<br>
-            <span class="prompt">mar@github:~$</span> Once you say 'yes,' there's no going back.<br>
-            <span class="prompt">mar@github:~$</span> Are you sure? 
+        <div id="promptText" class="fnaf-text hidden">
+            Hi Mar, there's something special I want to share with you. <br>
+            Once you say 'yes,' there's no going back. <br>
+            Are you sure? 
             <div class="input-line">
                 (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
                 <span class="blinking-cursor"></span>
             </div>
         </div>
 
-        <div id="message" class="hidden"></div>
+        <div id="message" class="hidden fnaf-text"></div>
     </div>
 
     <script>
-        const introText = `mar@github:~$ Initializing system...\nmar@github:~$ Loading secure connection...\nmar@github:~$ Verifying identity...\nmar@github:~$ Access granted.\n\n`;
+        const introText = `Initializing system...
+Loading secure connection...
+Verifying identity...
+Access granted.\n\n`;
+
+        const promptText = `Hi Mar, there's something special I want to share with you.
+Once you say 'yes,' there's no going back.
+Are you sure? `;
 
         const messageText = `HOLA, MAR.
 
@@ -95,7 +114,7 @@ TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAG
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
 
-        function typeWriterEffect(element, text, speed = 40, callback = null) {
+        function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
             function type() {
                 if (i < text.length) {
@@ -125,7 +144,7 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
-
+        
         let introDiv = document.getElementById("intro");
         typeWriterEffect(introDiv, introText, 40, function() {
             document.getElementById("promptText").classList.remove("hidden");
