@@ -15,6 +15,7 @@
             font-size: 14px;
             line-height: 1.6;
             text-align: center;
+            overflow: hidden;
         }
 
         #terminal {
@@ -23,6 +24,8 @@
             padding: 20px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            position: relative;
+            z-index: 2;
         }
 
         .system-text {
@@ -56,7 +59,7 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 14px;
             outline: none;
-            width: 80px;
+            width: 50px;
             text-transform: lowercase;
         }
 
@@ -84,15 +87,59 @@
             display: inline-block;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        /* Portal místico */
+        #portal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,140,0,0.8) 10%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: portalAnimation 3s ease-out forwards;
+            z-index: 1;
+        }
+
+        @keyframes portalAnimation {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
+
+        /* Magia del Caos */
+        .chaos-magic {
+            animation: chaosEffect 1.5s infinite alternate;
+        }
+
+        @keyframes chaosEffect {
+            0% { text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px darkred; }
+            100% { text-shadow: 0 0 10px darkred, 0 0 15px red, 0 0 20px crimson; }
+        }
+
+        /* Líneas doradas moviéndose en el fondo */
+        .golden-lines::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/lJzvbPi.png'); /* Imagen de líneas mágicas */
+            opacity: 0.2;
+            animation: moveLines 10s linear infinite;
+        }
+
+        @keyframes moveLines {
+            from { background-position: 0 0; }
+            to { background-position: 100% 100%; }
         }
 
     </style>
 </head>
-<body>
+<body class="golden-lines">
+
+    <div id="portal"></div> <!-- Portal Místico -->
 
     <div id="terminal">
         <div id="intro" class="system-text"></div>
@@ -128,18 +175,9 @@ Access granted.\n\n`;
 
 SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!!!!!!!!!!!!!
 
-NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.
-
-ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. 
-LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.
-
-TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
+ME GUSTA TODO DE TI. TU FORMA DE SER, CÓMO ME TRATAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
-
-PS: SI ESCRIBES "AMOR" O "FELIZ", EL FONDO CAMBIA A ROSA, YA SÉ QUE NO TE GUSTA EL ROSADO, PERO LA CANCIÓN SE LLAMA "BACHATA ROSA" Y TE LA DEDICO.
-
-PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
 
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
@@ -162,20 +200,7 @@ PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
                 } else if (userInput.includes("feliz") || userInput.includes("amor")) {
-                    document.body.style.backgroundColor = "#ff69b4";  // Cambiar fondo a rosa
-                    let heart = document.createElement("div");
-                    heart.innerHTML = "❤️";
-                    heart.style.fontSize = "100px";
-                    heart.style.position = "absolute";
-                    heart.style.top = "50%";
-                    heart.style.left = "50%";
-                    heart.style.transform = "translate(-50%, -50%)";
-                    heart.style.animation = "pulse 1.5s infinite";
-                    document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), 3000); // Elimina el corazón después de 3 segundos
-                } else {
-                    document.getElementById("inputField").value = "";
-                    alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
+                    document.body.classList.add("chaos-magic");
                 }
             }
         }
