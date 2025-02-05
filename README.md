@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terminal</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
         body {
             background-color: #000;
-            color: #33ff33;
-            font-family: 'Courier New', Courier, monospace;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
             margin: 0;
             padding: 20px;
-            font-size: 18px;
+            font-size: 16px;
+            text-transform: uppercase;
         }
 
         #terminal {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
             padding: 20px;
+            line-height: 1.6;
         }
 
         .hidden {
@@ -32,25 +36,27 @@
         }
 
         .prompt {
-            color: #33ff33;
+            color: #fff;
+            font-weight: bold;
             margin-right: 10px;
         }
 
         .input-field {
             background: none;
             border: none;
-            color: #33ff33;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 18px;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 16px;
             outline: none;
             width: 300px;
+            text-transform: uppercase;
         }
 
         .blinking-cursor {
             display: inline-block;
             width: 10px;
             height: 18px;
-            background-color: #33ff33;
+            background-color: #fff;
             animation: blink 1s step-end infinite;
         }
 
@@ -65,7 +71,7 @@
         <div id="intro"></div>
 
         <div id="inputContainer" class="input-line">
-            <span class="prompt">user@system:~$</span>
+            <span class="prompt">USER@SYSTEM:~$</span>
             <input type="text" id="inputField" class="input-field" autofocus>
             <span class="blinking-cursor"></span>
         </div>
@@ -74,30 +80,30 @@
     </div>
 
     <script>
-        const introText = `Initializing system...
-Loading secure connection...
-Verifying identity...
-Access granted.
+        const introText = `INITIALIZING SYSTEM...
+LOADING SECURE CONNECTION...
+VERIFYING IDENTITY...
+ACCESS GRANTED.
 
-Hi Mar, there's something special I want to share with you. 
-Once you say 'yes,' there's no going back. Are you sure? (yes/no)
+HI MAR, THERE'S SOMETHING SPECIAL I WANT TO SHARE WITH YOU. 
+ONCE YOU SAY 'YES,' THERE'S NO GOING BACK. ARE YOU SURE? (YES/NO)
 `;
 
-        const messageText = `Hola, Mar.
+        const messageText = `HOLA, MAR.
 
-Sé que no esperabas esto, pero quería hacer algo especial. ¡Feliz cumpleaños linda, ya son 21!!!!!!!!!!!!!!!!!!.
+SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!!!!!!!!!!!!!!!!!!.
 
-No sé de programación, pero quise intentarlo solo por ti. Porque si alguien merece algo especial, eres tú, además como me comentaste que vas a estar trabajando, maybe te haga sonreír un poquito JAJAJA.
+NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ, ADEMÁS COMO ME COMENTASTE QUE VAS A ESTAR TRABAJANDO, MAYBE TE HAGA SONREÍR UN POQUITO JAJAJA.
 
-Me gusta todo de ti, ¿sabias?. Tu forma de ser, tan suave que simplemente me pierdo en ti. La manera en que me tratas, cómo me miras, cómo me haces sentir… nunca había sentido algo así por alguien. Y no es solo porque eres bellísima (aunque lo eres, demasiado)………………. sino porque eres tú. Tu sonrisa, tu amabilidad, tu vulnerabilidad, las cosas que tú llamas defectos y que para mí son solo más razones para quererte. 
+ME GUSTA TODO DE TI, ¿SABÍAS?. TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN. Y NO ES SOLO PORQUE ERES BELLÍSIMA (AUNQUE LO ERES, DEMASIADO)………………. SINO PORQUE ERES TÚ. TU SONRISA, TU AMABILIDAD, TU VULNERABILIDAD, LAS COSAS QUE TÚ LLAMAS DEFECTOS Y QUE PARA MÍ SON SOLO MÁS RAZONES PARA QUERERTE. 
 
-Todavía recuerdo la primera vez que te vi en cámara. Te tapabas mucho, la apagabas rápido, como si no quisieras que te viera. Y yo, en ese momento, me di cuenta de que si el mundo te viera como yo te veo, se enamoraría igual que yo lo hago cada vez que te miro.
+TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
 
-ah, y claro está, nunca dejarás de ser mi gnomo, bueno mi océano pacífico...
+AH, Y CLARO ESTÁ, NUNCA DEJARÁS DE SER MI GNOMO, BUENO MI OCÉANO PACÍFICO...
 
-Espero que tengas un día muy lindo (como tú). 💚`;
+ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
 
-        function typeWriterEffect(element, text, speed = 50, callback = null) {
+        function typeWriterEffect(element, text, speed = 30, callback = null) {
             let i = 0;
             function type() {
                 if (i < text.length) {
@@ -118,14 +124,22 @@ Espero que tengas un día muy lindo (como tú). 💚`;
                     document.getElementById("inputContainer").style.display = "none";
                     let messageDiv = document.getElementById("message");
                     messageDiv.classList.remove("hidden");
-                    typeWriterEffect(messageDiv, messageText, 50);
+                    typeWriterEffect(messageDiv, messageText, 30);
                 } else {
                     document.getElementById("inputField").value = "";
-                    alert("Access denied. Only 'yes' is allowed.");
+                    alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
                 }
             }
         }
 
+        document.getElementById("inputField").addEventListener("keypress", checkInput);
+        
+        let introDiv = document.getElementById("intro");
+        typeWriterEffect(introDiv, introText, 40);
+    </script>
+
+</body>
+</html>
         document.getElementById("inputField").addEventListener("keypress", checkInput);
         
         let introDiv = document.getElementById("intro");
