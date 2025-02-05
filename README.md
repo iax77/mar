@@ -140,7 +140,7 @@ LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍ
 
 TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
 
-ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
+ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💖`;
 
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
@@ -163,7 +163,7 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
                 } else if (userInput.includes("feliz") || userInput.includes("amor")) {
-                    document.body.style.backgroundColor = "#006400";  // Cambiar fondo a verde royal
+                    document.body.style.backgroundColor = "#ff69b4";  // Cambiar fondo a rosa
                     let heart = document.createElement("div");
                     heart.innerHTML = "❤️";
                     heart.style.fontSize = "100px";
