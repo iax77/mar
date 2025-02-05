@@ -3,121 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensaje Especial</title>
+    <title>Terminal</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
         body {
-            margin: 0;
-            padding: 0;
             background-color: #000;
             color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            margin: 0;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.6;
             text-align: center;
+            overflow: hidden;
         }
 
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100%;
+        #terminal {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
-        /* Spider-Man swinging */
-        .spiderman {
+        .system-text {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+        }
+
+        .fnaf-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* Animación de Spider-Man */
+        #spiderman {
             position: absolute;
-            top: -150px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            animation: swing 2.5s ease-in-out forwards;
-        }
-
-        @keyframes swing {
-            0% { top: -150px; }
-            50% { top: 200px; }
-            100% { top: 100px; }
-        }
-
-        /* Pizza Box */
-        .pizza-box {
-            position: absolute;
-            bottom: -200px;
+            top: -200px;
             left: 50%;
             transform: translateX(-50%);
             width: 150px;
-            cursor: pointer;
-            transition: bottom 1s ease-in-out;
-        }
-
-        .pizza-box.open {
-            bottom: 50px;
-        }
-
-        /* Paper Message */
-        .paper {
-            position: absolute;
-            bottom: -100%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 220px;
+            height: auto;
             opacity: 0;
-            transition: opacity 1s ease-in-out, bottom 1s ease-in-out;
         }
 
-        .paper.show {
-            bottom: 150px;
-            opacity: 1;
+        .falling {
+            animation: fall 2s ease-out forwards;
         }
 
-        /* Final message */
-        .final-message {
+        @keyframes fall {
+            0% { top: -200px; opacity: 0; }
+            100% { top: 50%; opacity: 1; }
+        }
+
+        /* Caja de pizza */
+        #pizza-box {
             position: absolute;
-            bottom: -100%;
+            top: 55%;
             left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.9);
-            color: #000;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            width: 280px;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 150px;
+            background: #d2691e;
+            border: 3px solid #8b4513;
+            display: none;
             text-align: center;
-            opacity: 0;
-            transition: opacity 1s ease-in-out, bottom 1s ease-in-out;
+            padding: 10px;
         }
 
-        .final-message.show {
-            bottom: 80px;
-            opacity: 1;
+        #note {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            background: white;
+            padding: 5px;
+            margin-top: 10px;
+            text-align: center;
+            transform: rotate(-10deg);
+            display: inline-block;
+            position: relative;
         }
+
+        #note span {
+            text-decoration: line-through;
+            color: red;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img src="https://i.imgur.com/BS3vUiw.png" alt="Spider-Man" class="spiderman">
-        <img src="https://i.imgur.com/UuZUwM4.png" alt="Pizza Box" class="pizza-box" id="pizzaBox">
-        <img src="https://i.imgur.com/Zs4JtEV.png" alt="Paper Message" class="paper" id="paperMessage">  
-        <div class="final-message" id="finalMessage">  
-            Con todo lo que tengo, X.
+    <div id="terminal">
+        <div id="intro" class="system-text"></div>
+
+        <div id="promptText" class="fnaf-text hidden">
+            Hi Mar, there's something special I want to share with you. <br>
+            Once you say 'yes,' there's no going back. <br>
+            Are you sure? 
+            <input type="text" id="inputField" class="input-field" autofocus>
+        </div>
+
+        <div id="musicPrompt" class="hidden fnaf-text">
+            Antes de empezar, me gustaría que reproduzcas esto: <br>
+            <a href="https://open.spotify.com/track/3H9GcHKKJyZ9TEOLKlJ1U5?si=06pFZspsR_m7NuG9cXZ9ag" target="_blank">🎵 Escuchar canción 🎵</a>
+            <br><br>
+            <button class="button" onclick="startAnimation()">Ya puse la canción</button>
+        </div>
+
+        <img id="spiderman" src="https://upload.wikimedia.org/wikipedia/en/0/0f/Spider-Man_-_Miles_Morales.png" alt="Spider-Man">
+        
+        <div id="pizza-box">
+            <p>🍕 Para Mar 🍕</p>
+            <div id="note">
+                Para: <span>Pete</span> Spider-Man
+            </div>
+        </div>
+
+        <div id="message" class="hidden fnaf-text">
+            <p>HOLA, MAR.</p>
+            <p>SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!!!!!!!!!!!!!</p>
+            <p>NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.</p>
+            <p>ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. 
+            LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.</p>
+            <p>ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚</p>
         </div>
     </div>
 
     <script>
-        document.getElementById("pizzaBox").addEventListener("click", function() {
-            this.classList.add("open");
-            document.getElementById("paperMessage").classList.add("show");
+        const introText = `Initializing system...
+Loading secure connection...
+Verifying identity...
+Access granted.\n\n`;
 
-            setTimeout(function() {
-                document.getElementById("finalMessage").classList.add("show");
+        function typeWriterEffect(element, text, speed = 50, callback = null) {
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else if (callback) {
+                    callback();
+                }
+            }
+            type();
+        }
+
+        function checkInput(event) {
+            if (event.key === "Enter") {
+                let userInput = document.getElementById("inputField").value.toLowerCase();
+                if (userInput === "yes") {
+                    document.getElementById("promptText").style.display = "none";
+                    document.getElementById("musicPrompt").classList.remove("hidden");
+                } else {
+                    alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
+                }
+            }
+        }
+
+        function startAnimation() {
+            document.getElementById("musicPrompt").style.display = "none";
+            let spiderman = document.getElementById("spiderman");
+            spiderman.classList.add("falling");
+            setTimeout(() => {
+                document.getElementById("pizza-box").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("message").classList.remove("hidden");
+                }, 2000);
             }, 2000);
+        }
+
+        document.getElementById("inputField").addEventListener("keypress", checkInput);
+        
+        let introDiv = document.getElementById("intro");
+        typeWriterEffect(introDiv, introText, 40, function() {
+            document.getElementById("promptText").classList.remove("hidden");
         });
+
     </script>
 
 </body>
