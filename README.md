@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,6 @@
             margin: 0;
             padding: 20px;
             font-size: 14px;
-            line-height: 1.6;
             text-align: center;
         }
 
@@ -21,8 +20,10 @@
             max-width: 800px;
             margin: auto;
             padding: 20px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+        }
+
+        .hidden {
+            display: none;
         }
 
         .system-text {
@@ -35,43 +36,6 @@
             font-size: 14px;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .input-line {
-            display: inline-block;
-        }
-
-        .prompt {
-            font-family: 'Press Start 2P', cursive;
-            color: #fff;
-            margin-right: 5px;
-        }
-
-        .input-field {
-            background: none;
-            border: none;
-            color: #fff;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
-            outline: none;
-            width: 50px;
-            text-transform: lowercase;
-        }
-
-        .blinking-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: #fff;
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
         .button {
             font-family: 'Press Start 2P', cursive;
             font-size: 12px;
@@ -81,7 +45,6 @@
             padding: 10px;
             margin-top: 10px;
             cursor: pointer;
-            display: inline-block;
         }
 
     </style>
@@ -89,16 +52,14 @@
 <body>
 
     <div id="terminal">
-        <div id="intro" class="system-text"></div>
+        <div id="loading" class="system-text"></div>
 
         <div id="promptText" class="fnaf-text hidden">
             Hi Mar, there's something special I want to share with you. <br>
             Once you say 'yes,' there's no going back. <br>
-            Are you sure? 
-            <div class="input-line">
-                (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
-                <span class="blinking-cursor"></span>
-            </div>
+            Are you sure?  
+            <br><br>
+            (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
         </div>
 
         <div id="musicPrompt" class="hidden fnaf-text">
@@ -112,23 +73,18 @@
     </div>
 
     <script>
-        const introText = `Initializing system...
-Loading secure connection...
-Verifying identity...
-Access granted.\n\n`;
+        const introText = `Initializing system...\nLoading secure connection...\nVerifying identity...\nAccess granted.\n\n`;
 
-        const messageText = `HOLA, MAR.
-
-SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!
-
-NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.
-
-ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. 
-LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.
-
-TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
-
-ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
+        const messages = [
+            { time: 0, text: "HOLA, MAR.\n\n" },
+            { time: 10, text: "SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!\n\n" },
+            { time: 30, text: "NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.\n\n" },
+            { time: 50, text: "ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI.\n\n" },
+            { time: 70, text: "LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.\n\n" },
+            { time: 90, text: "TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA.\n\n" },
+            { time: 120, text: "Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.\n\n" },
+            { time: 180, text: "ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚" }
+        ];
 
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
@@ -161,13 +117,18 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
             document.getElementById("musicPrompt").style.display = "none";
             let messageDiv = document.getElementById("message");
             messageDiv.classList.remove("hidden");
-            typeWriterEffect(messageDiv, messageText, 50);
+
+            messages.forEach(msg => {
+                setTimeout(() => {
+                    typeWriterEffect(messageDiv, msg.text, 50);
+                }, msg.time * 1000);
+            });
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
         
-        let introDiv = document.getElementById("intro");
-        typeWriterEffect(introDiv, introText, 40, function() {
+        let loadingDiv = document.getElementById("loading");
+        typeWriterEffect(loadingDiv, introText, 40, function() {
             document.getElementById("promptText").classList.remove("hidden");
         });
     </script>
