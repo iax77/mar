@@ -15,7 +15,6 @@
             font-size: 14px;
             line-height: 1.6;
             text-align: center;
-            overflow: hidden;
         }
 
         #terminal {
@@ -40,6 +39,39 @@
             display: none;
         }
 
+        .input-line {
+            display: inline-block;
+        }
+
+        .prompt {
+            font-family: 'Press Start 2P', cursive;
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        .input-field {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            outline: none;
+            width: 80px;
+            text-transform: lowercase;
+        }
+
+        .blinking-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: #fff;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
         .button {
             font-family: 'Press Start 2P', cursive;
             font-size: 12px;
@@ -52,56 +84,10 @@
             display: inline-block;
         }
 
-        /* Animación de Spider-Man */
-        #spiderman {
-            position: absolute;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: auto;
-            opacity: 0;
-        }
-
-        .falling {
-            animation: fall 2s ease-out forwards;
-        }
-
-        @keyframes fall {
-            0% { top: -200px; opacity: 0; }
-            100% { top: 50%; opacity: 1; }
-        }
-
-        /* Caja de pizza */
-        #pizza-box {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 200px;
-            height: 150px;
-            background: #d2691e;
-            border: 3px solid #8b4513;
-            display: none;
-            text-align: center;
-            padding: 10px;
-        }
-
-        #note {
-            font-family: 'VT323', monospace;
-            font-size: 18px;
-            background: white;
-            padding: 5px;
-            margin-top: 10px;
-            text-align: center;
-            transform: rotate(-10deg);
-            display: inline-block;
-            position: relative;
-        }
-
-        #note span {
-            text-decoration: line-through;
-            color: red;
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
     </style>
@@ -115,33 +101,21 @@
             Hi Mar, there's something special I want to share with you. <br>
             Once you say 'yes,' there's no going back. <br>
             Are you sure? 
-            <input type="text" id="inputField" class="input-field" autofocus>
+            <div class="input-line">
+                (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
+                <span class="blinking-cursor"></span>
+            </div>
         </div>
 
         <div id="musicPrompt" class="hidden fnaf-text">
             Antes de empezar, me gustaría que reproduzcas esto: <br>
             <a href="https://open.spotify.com/track/3H9GcHKKJyZ9TEOLKlJ1U5?si=06pFZspsR_m7NuG9cXZ9ag" target="_blank">🎵 Escuchar canción 🎵</a>
             <br><br>
-            <button class="button" onclick="startAnimation()">Ya puse la canción</button>
+            <button class="button" onclick="startMessage()">Ya puse la canción</button>
         </div>
 
-        <img id="spiderman" src="https://upload.wikimedia.org/wikipedia/en/0/0f/Spider-Man_-_Miles_Morales.png" alt="Spider-Man">
-        
-        <div id="pizza-box">
-            <p>🍕 Para Mar 🍕</p>
-            <div id="note">
-                Para: <span>Pete</span> Spider-Man
-            </div>
-        </div>
+        <div id="message" class="hidden fnaf-text"></div>
 
-        <div id="message" class="hidden fnaf-text">
-            <p>HOLA, MAR.</p>
-            <p>SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!!!!!!!!!!!!!</p>
-            <p>NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.</p>
-            <p>ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. 
-            LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.</p>
-            <p>ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚</p>
-        </div>
     </div>
 
     <script>
@@ -149,6 +123,23 @@
 Loading secure connection...
 Verifying identity...
 Access granted.\n\n`;
+
+        const messageText = `HOLA, MAR.
+
+SÉ QUE NO ESPERABAS ESTO, PERO QUERÍA HACER ALGO ESPECIAL. ¡FELIZ CUMPLEAÑOS LINDA, YA SON 21!!!!!!!!!!!!!
+
+NO SÉ DE PROGRAMACIÓN, PERO QUISE INTENTARLO SOLO POR TI. PORQUE SI ALGUIEN MERECE ALGO ESPECIAL, ERES TÚ.
+
+ME GUSTA TODO DE TI, ¿SABÍAS? TU FORMA DE SER, TAN SUAVE QUE SIMPLEMENTE ME PIERDO EN TI. 
+LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍA SENTIDO ALGO ASÍ POR ALGUIEN.
+
+TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
+
+ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
+
+PS: SI ESCRIBES "AMOR" O "FELIZ", EL FONDO CAMBIA A ROSA, YA SÉ QUE NO TE GUSTA EL ROSADO, PERO LA CANCIÓN SE LLAMA "BACHATA ROSA" Y TE LA DEDICO.
+
+PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
 
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
@@ -170,22 +161,30 @@ Access granted.\n\n`;
                 if (userInput === "yes") {
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
+                } else if (userInput.includes("feliz") || userInput.includes("amor")) {
+                    document.body.style.backgroundColor = "#ff69b4";  // Cambiar fondo a rosa
+                    let heart = document.createElement("div");
+                    heart.innerHTML = "❤️";
+                    heart.style.fontSize = "100px";
+                    heart.style.position = "absolute";
+                    heart.style.top = "50%";
+                    heart.style.left = "50%";
+                    heart.style.transform = "translate(-50%, -50%)";
+                    heart.style.animation = "pulse 1.5s infinite";
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000); // Elimina el corazón después de 3 segundos
                 } else {
+                    document.getElementById("inputField").value = "";
                     alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
                 }
             }
         }
 
-        function startAnimation() {
+        function startMessage() {
             document.getElementById("musicPrompt").style.display = "none";
-            let spiderman = document.getElementById("spiderman");
-            spiderman.classList.add("falling");
-            setTimeout(() => {
-                document.getElementById("pizza-box").style.display = "block";
-                setTimeout(() => {
-                    document.getElementById("message").classList.remove("hidden");
-                }, 2000);
-            }, 2000);
+            let messageDiv = document.getElementById("message");
+            messageDiv.classList.remove("hidden");
+            typeWriterEffect(messageDiv, messageText, 50);
         }
 
         document.getElementById("inputField").addEventListener("keypress", checkInput);
@@ -194,7 +193,6 @@ Access granted.\n\n`;
         typeWriterEffect(introDiv, introText, 40, function() {
             document.getElementById("promptText").classList.remove("hidden");
         });
-
     </script>
 
 </body>
