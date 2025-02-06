@@ -137,10 +137,6 @@ TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAG
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
 
-PS: SI ESCRIBES "AMOR" O "FELIZ", EL FONDO CAMBIA A ROSA, YA SÉ QUE NO TE GUSTA EL ROSADO, PERO LA CANCIÓN SE LLAMA "BACHATA ROSA" Y TE LA DEDICO.
-
-PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
-
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
             function type() {
@@ -158,11 +154,13 @@ PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
         function checkInput(event) {
             if (event.key === "Enter") {
                 let userInput = document.getElementById("inputField").value.toLowerCase();
+                document.getElementById("inputField").value = ""; // Limpiar input antes de continuar
+
                 if (userInput === "yes") {
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
                 } else if (userInput.includes("feliz") || userInput.includes("amor")) {
-                    document.body.style.backgroundColor = "#ff69b4";  // Cambiar fondo a rosa
+                    document.body.style.backgroundColor = "#ff69b4";
                     let heart = document.createElement("div");
                     heart.innerHTML = "❤️";
                     heart.style.fontSize = "100px";
@@ -172,22 +170,22 @@ PS DEL PS: te quiero mucho mi niña, te mereces más <33333!!!!
                     heart.style.transform = "translate(-50%, -50%)";
                     heart.style.animation = "pulse 1.5s infinite";
                     document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), 3000); // Elimina el corazón después de 3 segundos
+                    setTimeout(() => heart.remove(), 3000);
                 } else {
-                    document.getElementById("inputField").value = "";
                     alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
                 }
             }
         }
 
         function startMessage() {
+            console.log("startMessage called"); // Verificar si la función se ejecuta
             document.getElementById("musicPrompt").style.display = "none";
             let messageDiv = document.getElementById("message");
             messageDiv.classList.remove("hidden");
             typeWriterEffect(messageDiv, messageText, 50);
         }
 
-        document.getElementById("inputField").addEventListener("keypress", checkInput);
+        document.getElementById("inputField").addEventListener("keydown", checkInput);
         
         let introDiv = document.getElementById("intro");
         typeWriterEffect(introDiv, introText, 40, function() {
