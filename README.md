@@ -58,45 +58,25 @@
             outline: none;
             width: 80px;
             text-transform: lowercase;
-        }
-
-        .blinking-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: #fff;
-            animation: blink 1s step-end infinite;
+            animation: blink 1s infinite;
         }
 
         @keyframes blink {
             50% { opacity: 0; }
         }
 
-        .button {
+        .blink-button {
             font-family: 'Press Start 2P', cursive;
             font-size: 12px;
             background-color: #fff;
             color: #000;
-            border: none;
-            padding: 10px;
-            margin-top: 10px;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .surprise-button {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            background-color: #ff69b4;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            margin-top: 20px;
-            cursor: pointer;
-            display: inline-block;
             text-decoration: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            animation: blink 1s infinite;
         }
-
     </style>
 </head>
 <body>
@@ -105,12 +85,9 @@
         <div id="intro" class="system-text"></div>
 
         <div id="promptText" class="fnaf-text hidden">
-            Hi Mar, there's something special I want to share with you. <br>
-            Once you say 'yes,' there's no going back. <br>
-            Are you sure? 
-            <div class="input-line">
+            <span id="typePrompt"></span>
+            <div class="input-line hidden" id="inputContainer">
                 (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
-                <span class="blinking-cursor"></span>
             </div>
         </div>
 
@@ -118,15 +95,10 @@
             Antes de empezar, me gustaría que reproduzcas esto: <br>
             <a href="https://open.spotify.com/track/3H9GcHKKJyZ9TEOLKlJ1U5?si=06pFZspsR_m7NuG9cXZ9ag" target="_blank">🎵 Escuchar canción 🎵</a>
             <br><br>
-            <button class="button" onclick="startMessage()">Ya puse la canción</button>
+            <button class="blink-button" onclick="startMessage()">Ya puse la canción</button>
         </div>
 
         <div id="message" class="hidden fnaf-text"></div>
-        <div id="surprise" class="hidden">
-            <p>PS: aquí hay otra sorpresa...</p>
-            <a href="https://www.canva.com/design/DAGecp8p3NU/GW0duxMbLw8a3pVFDkE9Pg/edit?utm_content=DAGecp8p3NU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="surprise-button">Entra aquí</a>
-        </div>
-
     </div>
 
     <script>
@@ -134,6 +106,8 @@
 Loading secure connection...
 Verifying identity...
 Access granted.\n\n`;
+
+        const promptMessage = `Hi Mar, there's something special I want to share with you.\nOnce you say 'yes,' there's no going back.\nAre you sure?\n\n`;
 
         const messageText = `HOLA, MAR.
 
@@ -147,6 +121,8 @@ LA MANERA EN QUE ME TRATAS, CÓMO ME MIRAS, CÓMO ME HACES SENTIR… NUNCA HABÍ
 TODAVÍA RECUERDO LA PRIMERA VEZ QUE TE VI EN CÁMARA. TE TAPABAS MUCHO, LA APAGABAS RÁPIDO, COMO SI NO QUISIERAS QUE TE VIERA. Y YO, EN ESE MOMENTO, ME DI CUENTA DE QUE SI EL MUNDO TE VIERA COMO YO TE VEO, SE ENAMORARÍA IGUAL QUE YO LO HAGO CADA VEZ QUE TE MIRO.
 
 ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
+
+        const finalMessageText = `\n\nPS: aquí hay otra sorpresa…\n`;
 
         function typeWriterEffect(element, text, speed = 50, callback = null) {
             let i = 0;
@@ -170,39 +146,42 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
                 if (userInput === "yes") {
                     document.getElementById("promptText").style.display = "none";
                     document.getElementById("musicPrompt").classList.remove("hidden");
-                } else if (userInput.includes("feliz") || userInput.includes("amor")) {
-                    document.body.style.backgroundColor = "#ff69b4";
-                    let heart = document.createElement("div");
-                    heart.innerHTML = "❤️";
-                    heart.style.fontSize = "100px";
-                    heart.style.position = "absolute";
-                    heart.style.top = "50%";
-                    heart.style.left = "50%";
-                    heart.style.transform = "translate(-50%, -50%)";
-                    heart.style.animation = "pulse 1.5s infinite";
-                    document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), 3000);
                 } else {
                     alert("ACCESS DENIED. ONLY 'YES' IS ALLOWED.");
                 }
             }
         }
 
+        function showFinalMessage() {
+            let messageDiv = document.getElementById("message");
+            typeWriterEffect(messageDiv, finalMessageText, 50, function() {
+                let buttonDiv = document.createElement("div");
+                buttonDiv.innerHTML = `<a href="https://www.canva.com/design/DAGecp8p3NU/GW0duxMbLw8a3pVFDkE9Pg/edit?utm_content=DAGecp8p3NU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="blink-button">Entra aquí</a>`;
+                messageDiv.appendChild(buttonDiv);
+            });
+        }
+
         function startMessage() {
             document.getElementById("musicPrompt").style.display = "none";
             let messageDiv = document.getElementById("message");
             messageDiv.classList.remove("hidden");
-            typeWriterEffect(messageDiv, messageText, 50, function() {
-                document.getElementById("surprise").classList.remove("hidden");
-            });
+            typeWriterEffect(messageDiv, messageText, 50, showFinalMessage);
         }
 
         document.getElementById("inputField").addEventListener("keydown", checkInput);
-        
-        let introDiv = document.getElementById("intro");
-        typeWriterEffect(introDiv, introText, 40, function() {
-            document.getElementById("promptText").classList.remove("hidden");
-        });
+
+        function startIntro() {
+            let introDiv = document.getElementById("intro");
+            typeWriterEffect(introDiv, introText, 40, function() {
+                document.getElementById("promptText").classList.remove("hidden");
+                let promptDiv = document.getElementById("typePrompt");
+                typeWriterEffect(promptDiv, promptMessage, 40, function() {
+                    document.getElementById("inputContainer").classList.remove("hidden");
+                });
+            });
+        }
+
+        startIntro();
     </script>
 
 </body>
