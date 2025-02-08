@@ -84,10 +84,17 @@
             display: inline-block;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
+        .surprise-button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
         }
 
     </style>
@@ -115,6 +122,10 @@
         </div>
 
         <div id="message" class="hidden fnaf-text"></div>
+        <div id="surprise" class="hidden">
+            <p>PS: aquí hay otra sorpresa...</p>
+            <a href="https://www.canva.com/design/DAGecp8p3NU/GW0duxMbLw8a3pVFDkE9Pg/edit?utm_content=DAGecp8p3NU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="surprise-button">Entra aquí</a>
+        </div>
 
     </div>
 
@@ -178,11 +189,12 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
         }
 
         function startMessage() {
-            console.log("startMessage called"); // Verificar si la función se ejecuta
             document.getElementById("musicPrompt").style.display = "none";
             let messageDiv = document.getElementById("message");
             messageDiv.classList.remove("hidden");
-            typeWriterEffect(messageDiv, messageText, 50);
+            typeWriterEffect(messageDiv, messageText, 50, function() {
+                document.getElementById("surprise").classList.remove("hidden");
+            });
         }
 
         document.getElementById("inputField").addEventListener("keydown", checkInput);
