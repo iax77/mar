@@ -49,6 +49,13 @@
             margin-right: 5px;
         }
 
+        .input-container {
+            display: inline-block;
+            border-right: 2px solid white;
+            padding-right: 5px;
+            animation: blink 1s infinite;
+        }
+
         .input-field {
             background: none;
             border: none;
@@ -58,14 +65,13 @@
             outline: none;
             width: 80px;
             text-transform: lowercase;
-            animation: blink 1s infinite;
         }
 
         @keyframes blink {
-            50% { opacity: 0; }
+            50% { border-right-color: transparent; }
         }
 
-        .blink-button {
+        .final-button {
             font-family: 'Press Start 2P', cursive;
             font-size: 12px;
             background-color: #fff;
@@ -75,7 +81,7 @@
             margin-top: 10px;
             border: none;
             cursor: pointer;
-            animation: blink 1s infinite;
+            display: inline-block;
         }
     </style>
 </head>
@@ -87,7 +93,7 @@
         <div id="promptText" class="fnaf-text hidden">
             <span id="typePrompt"></span>
             <div class="input-line hidden" id="inputContainer">
-                (yes/no): <input type="text" id="inputField" class="input-field" autofocus>
+                (yes/no): <span class="input-container"><input type="text" id="inputField" class="input-field" autofocus></span>
             </div>
         </div>
 
@@ -95,7 +101,7 @@
             Antes de empezar, me gustaría que reproduzcas esto: <br>
             <a href="https://open.spotify.com/track/3H9GcHKKJyZ9TEOLKlJ1U5?si=06pFZspsR_m7NuG9cXZ9ag" target="_blank">🎵 Escuchar canción 🎵</a>
             <br><br>
-            <button class="blink-button" onclick="startMessage()">Ya puse la canción</button>
+            <button class="final-button" onclick="startMessage()">Ya puse la canción</button>
         </div>
 
         <div id="message" class="hidden fnaf-text"></div>
@@ -156,7 +162,7 @@ ESPERO QUE TENGAS UN DÍA MUY LINDO (COMO TÚ). 💚`;
             let messageDiv = document.getElementById("message");
             typeWriterEffect(messageDiv, finalMessageText, 50, function() {
                 let buttonDiv = document.createElement("div");
-                buttonDiv.innerHTML = `<a href="https://www.canva.com/design/DAGecp8p3NU/GW0duxMbLw8a3pVFDkE9Pg/edit?utm_content=DAGecp8p3NU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="blink-button">Entra aquí</a>`;
+                buttonDiv.innerHTML = `<br><br><a href="https://www.canva.com/design/DAGecp8p3NU/GW0duxMbLw8a3pVFDkE9Pg/edit?utm_content=DAGecp8p3NU&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="final-button">Entra aquí</a>`;
                 messageDiv.appendChild(buttonDiv);
             });
         }
